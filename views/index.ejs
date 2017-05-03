@@ -3,8 +3,8 @@
   <title>Speak good or remain silent </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link href="/css/bootstrap.css" rel="stylesheet">
-  <link href="/css/custom.css" rel="stylesheet">
+  <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+  <link href="/stylesheets/custom.css" rel="stylesheet">
   <link rel="icon" href="/images/chat_logo.png" type="image/x-icon"/>
 </head>
 
@@ -13,13 +13,12 @@
   <div class="container">
     <div class="row">
      <div class="" align="center" id="nickWrap">
-       <img height="500" width="500" class="img-circle" src="/images/minion.jpg"/>
-         <h3>Pick your super awesome nickname</h3>
+       <img height="500" width="500" class="img-circle" src="/images/home.svg"/>
        <p id="nickError"></p>
        <div class="form-group">
        <form id="setNick" role="form">
-         <input  type="text" autofocus required placeholder="Your nickname" id="nickname"/>
-         <input class="btn btn-danger" type="submit" value="Submit"/>
+         <span class="select-text">Enter your name to enter chat window</span><input  type="text" autofocus required placeholder="Enter Name" id="nickname"/>
+         <input class="btn btn-primary" type="submit" value="Submit"/>
        </form>
      </div>
     </div>
@@ -31,24 +30,23 @@
 
  <div class="container">
  		<div class="row">
- 			<div class="col-md-6 col-sm-offset-1 panel panel-primary">
-            <div class="panel-body">
+ 			<div class="col-md-6">
+            <div class="wrap">
                <div id="contentWrap" >
-                  <div id="chatWrap" style=" border-radius: 10px;
-                      background: #F0E0B0;background: url(/images/wood.jpg);min-height: 400;max-height: 400;overflow-y: scroll;">
+                  <div id="chatWrap">
                       <div id="chat"></div>
                   </div>
                </div>
             </div>
         </div>
    <br/>
+	  <h4 align="center">Invite your friends by sharing the <a target="_blank" href="https://awesome-socket-io.herokuapp.com/">link</a></h4>
       <div class="col-md-4 col-sm-offset-1 panel panel-default">
         <div class="panel-heading">Currently Online</div>
          <div class="panel-body">
             <div  id="users"></div>
         </div>
       </div>
-        <h4 align="center">Invite your friends by sharing the <a target="_blank" href="https://awesome-socket-io.herokuapp.com/">link</a></h4>
    </div>
  </div>
  <br/>
@@ -64,14 +62,14 @@
  </div>
 
  <div class="row">
-  <h1 align="center"><code>@harry  ciao</code> to say ciao to harry privately</h1>
+  <h1 align="center"></h1>
  </div>
 
 </div>
 
    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
    <script src="/socket.io/socket.io.js"></script>
-   <script src="/js/bootstrap.js"></script>
+   <script src="/javascripts/bootstrap.js"></script>
 
    <script>
     jQuery(function($){
@@ -135,9 +133,9 @@
 
        socket.on('new message',function(data){
          if(data.nick===title){
-           $chat.append("<p style='' align='right' class='msg'><b>"+data.nick+" : </b>"+data.msg+"&nbsp;&nbsp;</p>");
+           $chat.append("<p style='' align='right' class='msg my-msg'><b>"+data.nick+" : </b>"+data.msg+"&nbsp;&nbsp;</p>");
          }else{
-           $chat.append("<p style='' align='left' class='msg'><b>&nbsp;&nbsp;&nbsp;"+data.nick+" : </b>"+data.msg+"</p>");
+           $chat.append("<p style='' align='left' class='msg others-msg'><b>&nbsp;&nbsp;&nbsp;"+data.nick+" : </b>"+data.msg+"</p>");
          }
          scrollCorrect();
        });
@@ -145,12 +143,12 @@
 
 
        socket.on('whisper',function(data){
-           $chat.append("<p align='left' class='whisper'><b>&nbsp;&nbsp;&nbsp;"+data.nick+" : </b>"+data.msg+"</p><br/>");
+           $chat.append("<p align='left' class='whisper private-back'><b>&nbsp;&nbsp;&nbsp;"+data.nick+" : </b>"+data.msg+"</p><br/>");
 
        });
 
        socket.on('private',function(data){
-           $chat.append("<p align='right' class='whisper'><b>"+title+"@"+data.nick+": </b>"+data.msg+"&nbsp;&nbsp;</p><br/>");
+           $chat.append("<p align='right' class='whisper my-msg'><b>@"+data.nick+": </b>"+data.msg+"&nbsp;&nbsp;</p><br/>");
 
        });
 
